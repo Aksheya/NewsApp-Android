@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/detailCardBookmark"
+        android:title="detailedPageBookmark"
+        android:tint="@color/bookmarkColor"
+        app:iconTint="@color/bookmarkColor"
+        android:icon="@drawable/detail_bookmark_border"
+        app:showAsAction="collapseActionView|ifRoom" />
+
+    <item
+        android:id="@+id/detailTwitter"
+        android:title="twitter"
+        app:showAsAction="collapseActionView|ifRoom"
+        android:icon="@drawable/bluetwitter">
+    </item>
+</menu>

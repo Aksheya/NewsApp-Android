@@ -1,0 +1,44 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:actionButtonStyle">@style/ActionButtonStyle</item>
+        <item name="actionButtonStyle">@style/ActionButtonStyle</item>
+    </style>
+    <style name="headlinesTabLayoutTextStyle" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="AppTheme.Launcher">
+        <item name="android:windowBackground">@drawable/splash_icon</item>
+    </style>
+    <style name="TabLayout_Theme" parent="@style/AppTheme">
+    <item name="android:singleLine">true</item>
+    </style>
+    <style name="cardBookmark" parent="AppTheme">
+        <item name="android:textColorSecondary">@color/bookmarkColor</item>
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.primaryDarkProgress">
+        <item name="colorAccent">@color/colorPrimaryDark</item> <!-- Whatever color you want-->
+    </style>
+<!--    <style name="NavigationTheme" parent="@style/AppTheme">-->
+<!--        <item name="android:minWidth">0dip</item>-->
+<!--        <item name="android:layout_marginRight">-10dp</item>-->
+<!--        <item name="android:paddingLeft">0dp</item>-->
+<!--        <item name="android:paddingRight">-10dp</item>-->
+<!--    </style>-->
+    <style name="ActionButtonStyle" parent="Widget.AppCompat.ActionButton">
+        <item name="android:minWidth">0dp</item>
+        <item name="android:maxWidth">0dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">-20dp</item>
+        <item name="android:paddingLeft">-10dp</item>
+        <item name="android:paddingRight">-10dp</item>
+    </style>
+</resources>

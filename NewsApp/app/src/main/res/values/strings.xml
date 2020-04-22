@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">NewsApp</string>
+    <string name="search_name">searchName</string>
+    <string name="world_tab">WORLD</string>
+    <string name="business_tab">BUSINESS</string>
+    <string name="politics_tab">POLITICS</string>
+    <string name="science_tab">SCIENCE</string>
+    <string name="technology_tab">TECHNOLOGY</string>
+    <string name="sports_tab">SPORTS</string>
+
+</resources>
