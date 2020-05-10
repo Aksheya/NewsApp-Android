@@ -41,7 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TrendingFragment extends Fragment {
-    private RequestQueue queue;
 
     public TrendingFragment() {
     }
@@ -72,11 +71,11 @@ public class TrendingFragment extends Fragment {
         return view;
     }
 
-    public void makeVolleyRequest(String keyword, View view){
+    private void makeVolleyRequest(String keyword, View view){
         final String kWord = keyword;
         final View chartView = view;
-        queue = Volley.newRequestQueue(getActivity().getApplicationContext());
-        String url="https://android-newapp-aks05.wl.r.appspot.com/google_trends?keyword="+ keyword;
+        RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        String url="http://10.0.2.2:8080/google_trends?keyword="+ keyword;
         JsonObjectRequest jsonArrayRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
@@ -107,15 +106,15 @@ public class TrendingFragment extends Fragment {
 
     }
 
-    public void prepareChart(ArrayList<Entry> entries,String keyword, View view){
+    private void prepareChart(ArrayList<Entry> entries, String keyword, View view){
         LineDataSet dataSet = new LineDataSet(entries, "Trending chart for " + (keyword.equals("") ? "coronavirus" : keyword));
         dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
         List<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-        dataSet.setColors(ColorTemplate.rgb("#7B7CBA"));
-        dataSet.setValueTextColor(ColorTemplate.rgb("#7B7CBA"));
+        dataSet.setColors(Color.BLACK);
+        dataSet.setValueTextColor(Color.BLACK);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            dataSet.setCircleColor(getActivity().getColor(R.color.colorPrimary));
-            dataSet.setCircleHoleColor(getActivity().getColor(R.color.colorPrimary));
+            dataSet.setCircleColor(Color.BLACK);
+            dataSet.setCircleHoleColor(Color.BLACK);
         }
         dataSets.add(dataSet);
         dataSet.setValueTextSize(10);
@@ -138,7 +137,7 @@ public class TrendingFragment extends Fragment {
         mLineChart.getAxisLeft().setTextSize(12);
         mLineChart.setData(data);
         mLineChart.invalidate();
-        dataSet.setCircleColor(ColorTemplate.rgb("#7B7CBA"));
+        dataSet.setCircleColor(Color.BLACK);
         mLineChart.setExtraOffsets(0, 10, 0, 10);
     }
 }

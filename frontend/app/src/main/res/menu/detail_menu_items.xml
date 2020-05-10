@@ -1,20 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:checkableBehavior="all">
     <item
         android:id="@+id/detailCardBookmark"
         android:title="detailedPageBookmark"
         android:tint="@color/bookmarkColor"
         app:iconTint="@color/bookmarkColor"
-        android:icon="@drawable/detail_bookmark_border"
+        android:icon="@drawable/ic_bookmark_border_black_24dp"
         app:showAsAction="collapseActionView|ifRoom" />
 
-    <item
-        android:id="@+id/detailTwitter"
-        android:title="twitter"
-        android:background="@android:color/white"
-        app:showAsAction="collapseActionView|ifRoom"
-        android:scaleType="fitCenter"
-        android:icon="@drawable/ic_icons8_twitter">
-    </item>
+<!--    <item-->
+<!--        android:id="@+id/detailTwitter"-->
+<!--        android:title="twitter"-->
+<!--        android:background="@color/toolbar"-->
+<!--        app:showAsAction="collapseActionView|ifRoom"-->
+<!--        android:scaleType="fitCenter"-->
+<!--        android:icon="@drawable/ic_icons8_twitter">-->
+<!--    </item>-->
+
+
+        <item
+            android:id="@+id/detailShare"
+            android:title="share"
+            android:background="@color/toolbar"
+            app:showAsAction="collapseActionView|ifRoom"
+            android:scaleType="fitCenter"
+            android:icon="@drawable/ic_share_black_24dp"
+          >
+        </item>
+    </group>
 </menu>

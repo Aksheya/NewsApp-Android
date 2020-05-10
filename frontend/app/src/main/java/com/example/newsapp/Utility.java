@@ -2,12 +2,9 @@ package com.example.newsapp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -31,11 +28,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Utility {
-    private RequestQueue queue;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     public void getHomeFragmentData(String url, Context context, final CallBack callback) {
-        queue = Volley.newRequestQueue(context.getApplicationContext());
+        RequestQueue queue = Volley.newRequestQueue(context.getApplicationContext());
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
 
@@ -53,7 +49,7 @@ public class Utility {
                                         res.getString("image"));
                                 cardItems.add(card);
                             }
-                            Log.d("handle","dfdf");
+                            Log.d("handle", "dfdf");
                             callback.dataLoaded(cardItems);
                         } catch (JSONException error) {
                             Log.d("MYERROR0", error.toString());
@@ -71,12 +67,11 @@ public class Utility {
         queue.add(jsonArrayRequest);
     }
 
-    public static String handleBookmark(Card card, Context context) {
+    static String handleBookmark(Card card, Context context) {
         String uri;
         Gson gson = new Gson();
         SharedPreferences pref = context.getSharedPreferences("BookmarkPref", 0); // 0 - for private mode
-        Card myCardObject = card;
-        String cardString = gson.toJson(myCardObject);
+        String cardString = gson.toJson(card);
         SharedPreferences.Editor prefsEditor = pref.edit();
         String objectstring = pref.getString(card.articleId, null);
         if (objectstring != null) {
@@ -95,7 +90,7 @@ public class Utility {
         return uri;
     }
 
-    public void implementSwipe(final String url, final Context context, View view){
+    void implementSwipe(final String url, final Context context, View view) {
         mSwipeRefreshLayout = view.findViewById(R.id.swiperefresh_items);
         final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.homeFragmentCard);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -106,6 +101,7 @@ public class Utility {
                     public void dataLoaded(List<Card> cards) {
                         recyclerView.setAdapter(new CardAdapter(cards, "MainActivity", "listLayout", null));
                     }
+
                     @Override
                     public void dataError(String msg) {
                         Log.d("ErrorMessage", msg);
@@ -116,7 +112,7 @@ public class Utility {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if(mSwipeRefreshLayout.isRefreshing()) {
+                        if (mSwipeRefreshLayout.isRefreshing()) {
                             mSwipeRefreshLayout.setRefreshing(false);
                         }
                     }
@@ -125,27 +121,11 @@ public class Utility {
         });
     }
 
-    public static void setProgressBar(View view, boolean set){
-        RelativeLayout progressBar = (RelativeLayout) view.findViewById(R.id.progress);
-//        ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.pbHeaderProgress);
-        ScrollView scrollView = (ScrollView)view.findViewById(R.id.scrollViewId);
-        if(set){
-            progressBar.setVisibility(View.VISIBLE);
-            scrollView.setVisibility(View.GONE);
-        }
-        else{
-            progressBar.setVisibility(View.GONE);
-            scrollView.setVisibility(View.VISIBLE);
-        }
-    }
-    public static void setHeadlinesProgressBar(View view, boolean set){
+    public static void setProgressBar(View view, boolean set) {
         RelativeLayout progressBar = (RelativeLayout) view.findViewById(R.id.includedProgressBar);
-//        ScrollView scrollView = (ScrollView)view.findViewById(R.id.scrollViewId);
-//        ProgressBar progressBar = (ProgressBar)view.findViewById(R.id.pbHeaderProgress);
-        if(set){
+        if (set) {
             progressBar.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             progressBar.setVisibility(View.GONE);
         }
     }

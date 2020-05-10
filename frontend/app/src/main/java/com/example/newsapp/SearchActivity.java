@@ -13,15 +13,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-
-import java.io.Serializable;
 import java.util.List;
-
-import static com.example.newsapp.MainActivity.EXTRA_MESSAGE;
 
 public class SearchActivity extends AppCompatActivity {
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -49,7 +42,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
 
-                String url = "https://android-newapp-aks05.wl.r.appspot.com/search?keyword=" + intent.getExtras().getString("keyword");
+                String url = "http://10.0.2.2:8080/search?keyword=" + intent.getExtras().getString("keyword");
                 Utility util = new Utility();
                 util.getHomeFragmentData(url, that, new Utility.CallBack() {
                     @Override
@@ -78,8 +71,8 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
     public void processSearch(String query) {
-        Utility.setHeadlinesProgressBar(getWindow().getDecorView().findViewById(android.R.id.content),true);
-        String url = "https://android-newapp-aks05.wl.r.appspot.com/search?keyword=" + query;
+        Utility.setProgressBar(getWindow().getDecorView().findViewById(android.R.id.content),true);
+        String url = "http://10.0.2.2:8080/search?keyword=" + query;
         Utility util = new Utility();
         final Context that = this;
         util.getHomeFragmentData(url, this, new Utility.CallBack() {
@@ -90,7 +83,7 @@ public class SearchActivity extends AppCompatActivity {
                 recyclerView.setLayoutManager(new LinearLayoutManager(that));
                 recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
                 recyclerView.setAdapter(new CardAdapter(cardList, "SearchActivity", "listLayout",null));
-                        Utility.setHeadlinesProgressBar(getWindow().getDecorView().findViewById(android.R.id.content),false);
+                        Utility.setProgressBar(getWindow().getDecorView().findViewById(android.R.id.content),false);
 
             }
 

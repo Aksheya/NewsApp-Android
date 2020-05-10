@@ -72,8 +72,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         AndroidThreeTen.init(this);
-//        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-//        setProgressBarIndeterminateVisibility(true);
         setContentView(R.layout.activity_main);
         if (findViewById(R.id.fragment_bottom_container) != null) {
             if (savedInstanceState != null)
@@ -167,8 +165,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchV.clearFocus();
-//                Utility.setHeadlinesProgressBargressBar(getWindow().getDecorView().findViewById(android.R.id.content),true);
-               // processSearch(query);
                 Intent intent = new Intent(that, SearchActivity.class);
                 intent.putExtra("keyword", query);
                 that.startActivity(intent);
@@ -225,9 +221,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     }
 
     public void processSearch(String query) {
-        Log.d("Volley", "bolley");
-//        queue = Volley.newRequestQueue(getApplicationContext());
-        String url = "https://android-newapp-aks05.wl.r.appspot.com/search?keyword=" + query;
+        String url = "http://10.0.2.2:8080/search?keyword=" + query;
         Utility util = new Utility();
         final Context that = this;
         final String keyword = query;
@@ -261,32 +255,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             e.printStackTrace();
         }
     }
-
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode,
-//                                           String permissions[], int[] grantResults) {
-//        Log.d("results","d");
-//        LocationManager locationManager;
-//        String provider;
-//        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-//        assert locationManager != null;
-//        provider = locationManager.getBestProvider(new Criteria(), false);
-//        if (requestCode == MY_PERMISSIONS_REQUEST_LOCATION) {
-//            if (grantResults.length > 0
-//                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                if (ContextCompat.checkSelfPermission(this,
-//                        Manifest.permission.ACCESS_FINE_LOCATION)
-//                        == PackageManager.PERMISSION_GRANTED) {
-//                    Log.d("Gd","G");
-//                    provider = locationManager.getBestProvider(new Criteria(), false);
-//                    locationManager.requestLocationUpdates(provider, 400, 1, this);
-//                }
-//            }
-//            if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_DENIED)
-//                new HomeFragment().callCardsApi(this);
-//        }
-//    }
 
     @Override
     public void onLocationChanged(Location location) {

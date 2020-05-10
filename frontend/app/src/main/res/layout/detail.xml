@@ -8,6 +8,7 @@
     android:fillViewport="true">
 
     <RelativeLayout
+        android:id="@+id/rel"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -16,6 +17,14 @@
             layout="@layout/toolbar_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+<!--        <include-->
+<!--            android:id="@+id/detailDialogBox"-->
+<!--            layout="@layout/share_dialog"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_alignParentRight="true" />-->
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -44,71 +53,115 @@
                     android:id="@+id/detailedArticleImage"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/ic_launcher_background" />
+                    android:scaleType="centerCrop" />
 
                 <TextView
                     android:id="@+id/detailedArticleTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/detailedArticleImage"
+                    android:layout_marginTop="20dp"
                     android:gravity="center"
                     android:paddingBottom="8dp"
-                    android:text="TextView"
                     android:textColor="@android:color/black"
-                    android:textSize="22sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
+
+<!--                <ImageButton-->
+<!--                    android:id="@+id/detailTwitter"-->
+<!--                    android:layout_width="40dp"-->
+<!--                    android:layout_height="40dp"-->
+<!--                    android:layout_below="@+id/detailedArticleTitle"-->
+<!--                    android:layout_alignParentRight="true"-->
+<!--                    android:background="@color/white"-->
+<!--                    android:scaleType="fitCenter"-->
+<!--                    app:srcCompat="@drawable/bluetwitter" />-->
+
+                <TextView
+                    android:id="@+id/detailedArticleType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/detailedArticleTitle"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+
+                    android:paddingBottom="8dp"
+                    android:text="News Type : "
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp"
+                    android:textStyle="bold|italic" />
 
                 <TextView
                     android:id="@+id/detailedArticleSection"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/detailedArticleTitle"
+
+                    android:layout_toRightOf="@+id/detailedArticleType"
+                    android:paddingBottom="8dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/detailedArticleDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/detailedArticleSection"
                     android:layout_marginStart="8dp"
                     android:layout_marginLeft="8dp"
-                    android:layout_marginTop="0dp"
-                    android:paddingBottom="8dp"
-                    android:text="TextView"
-                    android:textSize="16sp" />
+
+                    android:text="Date : "
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp"
+                    android:textStyle="bold|italic" />
 
                 <TextView
                     android:id="@+id/detailedArticleTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/detailedArticleTitle"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:paddingBottom="8dp"
-                    android:text="TextView"
-                    android:textSize="16sp" />
+                    android:layout_below="@+id/detailedArticleSection"
+                    android:layout_toEndOf="@+id/detailedArticleDate"
 
-                <TextView
+                    android:layout_toRightOf="@+id/detailedArticleDate"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
+
+<!--                <TextView-->
+<!--                    android:id="@+id/detailedArticleDescription"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_below="@+id/detailedArticleSection"-->
+<!--                    android:ellipsize="end"-->
+<!--                    android:maxLines="30"-->
+<!--                    android:paddingLeft="8dp"-->
+<!--                    android:paddingRight="15dp"-->
+<!--                    android:textSize="18sp" />-->
+
+                <com.codesgood.views.JustifiedTextView
                     android:id="@+id/detailedArticleDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/detailedArticleSection"
-                    android:ellipsize="end"
+                    android:layout_below="@+id/detailedArticleTime"
+                    android:layout_marginTop="24dp"
                     android:maxLines="30"
                     android:paddingLeft="8dp"
-                    android:paddingRight="15dp"
-                    android:text="TextView"
-
-                    android:textSize="18sp" />
+                    android:paddingRight="8dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/detailedArticleShowMore"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/detailedArticleDescription"
+                    android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:paddingBottom="8dp"
                     android:text="View Full Article"
-                    android:textColorLink="@color/darkgrey"
+                    android:textColor="@android:color/black"
+                    android:textColorLink="@android:color/black"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold|italic" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 

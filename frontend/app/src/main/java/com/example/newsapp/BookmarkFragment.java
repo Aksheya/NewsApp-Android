@@ -50,7 +50,7 @@ public class BookmarkFragment extends Fragment implements OnBookmarkClickListene
             recyclerView.setAdapter(new CardAdapter(cardList, "MainActivity", "gridLayout", this));
         }
         else {
-            textView.setText("No Bookmarked Articles");
+            textView.setText(context.getResources().getString(R.string.empty_bookmark));
         }
         return view;
     }
@@ -77,26 +77,24 @@ public class BookmarkFragment extends Fragment implements OnBookmarkClickListene
             if(cardList.size()>0)
                 textView.setText("");
             else{
-                textView.setText("No Bookmarked Articles");
+                textView.setText(context.getResources().getString(R.string.empty_bookmark));
             }
             recyclerView.setAdapter(new CardAdapter(cardList, "MainActivity", "gridLayout", this));
         }
         else {
-            Log.d("FD","fd");
-            textView.setText("No Bookmarked Articles");
+            textView.setText(context.getResources().getString(R.string.empty_bookmark));
         }
     }
 
     @Override
     public void onBookmarkClick(int position) {
-        Log.d("position", String.valueOf(position));
         cardList.remove(position);
         if (cardList.size()>0){
             textView.setText("");
             recyclerView.setAdapter(new CardAdapter(cardList, "MainActivity", "gridLayout", this));
         }
         else {
-            textView.setText("No Bookmarked Articles");
+            textView.setText(context.getResources().getString(R.string.empty_bookmark));
         }
     }
 }

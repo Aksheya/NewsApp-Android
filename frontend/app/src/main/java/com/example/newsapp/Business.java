@@ -37,18 +37,18 @@ public class Business extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.business_tab, container, false);
         Context context = view.getContext();
-        Utility.setHeadlinesProgressBar(view,true);
+        Utility.setProgressBar(view,true);
         recyclerView = (RecyclerView) view.findViewById(R.id.homeFragmentCard);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-        String url = "https://android-newapp-aks05.wl.r.appspot.com/business_fragment";
+        String url = "http://10.0.2.2:8080/business_fragment";
         Utility util = new Utility();
         util.getHomeFragmentData(url, getActivity(), new Utility.CallBack() {
             @Override
             public void dataLoaded(List<Card> cards) {
                 cardList = cards;
                 recyclerView.setAdapter(new CardAdapter(cards, "MainActivity", "listLayout", null));
-                Utility.setHeadlinesProgressBar(view,false);
+                Utility.setProgressBar(view,false);
             }
             @Override
             public void dataError(String msg) {

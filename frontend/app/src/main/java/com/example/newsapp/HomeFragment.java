@@ -12,7 +12,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,13 +24,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.widget.FrameLayout;
+
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -49,7 +44,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class HomeFragment extends Fragment implements LocationListener {
-    //    private HomeFragment.OnListFragmentInteractionListener listener;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private LocationManager locationManager;
     private String provider;
@@ -71,10 +65,8 @@ public class HomeFragment extends Fragment implements LocationListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.home_fragment, container, false);
-        Log.d("VIEW","V");
         context = view.getContext();
-        Utility.setHeadlinesProgressBar(view, true);
-
+        Utility.setProgressBar(view, true);
         recyclerView = (RecyclerView) view.findViewById(R.id.homeFragmentCard);
         recyclerView.setLayoutManager(new LinearLayoutManager(context) {
         });
@@ -84,19 +76,7 @@ public class HomeFragment extends Fragment implements LocationListener {
         assert locationManager != null;
         provider = locationManager.getBestProvider(new Criteria(), false);
         checkLocationPermission();
-        String url = "https://android-newapp-aks05.wl.r.appspot.com/home_fragment/";
-//        util.getHomeFragmentData(url, context, new Utility.CallBack() {
-//            @Override
-//            public void dataLoaded(List<Card> cards) {
-//                cardList = cards;
-//                recyclerView.setAdapter(new CardAdapter(cards, "MainActivity", "listLayout", null));
-//                Utility.setHeadlinesProgressBar(view,false);
-//            }
-//            @Override
-//            public void dataError(String msg) {
-//                Log.d("ErrorMessage", msg);
-//            }
-//        });
+        String url = "http://10.0.2.2:8080/home_fragment/";
         util.implementSwipe(url, context, view);
         return view;
     }
@@ -107,7 +87,6 @@ public class HomeFragment extends Fragment implements LocationListener {
         if (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-
             provider = locationManager.getBestProvider(new Criteria(), false);
             locationManager.requestLocationUpdates(provider, 400, 1, this);
         }
@@ -121,7 +100,6 @@ public class HomeFragment extends Fragment implements LocationListener {
         if (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-
             locationManager.removeUpdates(this);
         }
     }
@@ -129,20 +107,19 @@ public class HomeFragment extends Fragment implements LocationListener {
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
-        Log.d("results","d");
         if (requestCode == MY_PERMISSIONS_REQUEST_LOCATION) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (ContextCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.ACCESS_FINE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED) {
-                    Log.d("Gd","G");
+                    Log.d("Gd", "G");
                     provider = locationManager.getBestProvider(new Criteria(), false);
                     locationManager.requestLocationUpdates(provider, 400, 1, this);
                 }
             }
-            if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_DENIED)
-             callCardsApi();
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED)
+                callCardsApi();
         }
     }
 
@@ -158,21 +135,13 @@ public class HomeFragment extends Fragment implements LocationListener {
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                //Prompt the user once explanation has been shown
-//                                ActivityCompat.requestPermissions(getActivity(),
-//                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-//                                        MY_PERMISSIONS_REQUEST_LOCATION);
                                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                         MY_PERMISSIONS_REQUEST_LOCATION);
                             }
                         })
                         .create()
                         .show();
-
             } else {
-//                ActivityCompat.requestPermissions(getActivity(),
-//                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-//                        MY_PERMISSIONS_REQUEST_LOCATION);
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         MY_PERMISSIONS_REQUEST_LOCATION);
             }
@@ -181,13 +150,10 @@ public class HomeFragment extends Fragment implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.d("log", "dfsfs");
         Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
         List<Address> addresses = null;
         try {
-            Log.d("address", location.toString());
             addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-
             String cityName = addresses.get(0).getLocality();
             String stateName = addresses.get(0).getAdminArea();
             callWeatherApi(cityName, stateName);
@@ -213,7 +179,6 @@ public class HomeFragment extends Fragment implements LocationListener {
     }
 
     private void callWeatherApi(final String cityName, final String stateName) {
-        Log.d("fn", "fn");
         String weatherApiKey = "58a560f4f6e4f4e84965da2f9c7f5f90";
         RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
         String url = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=metric&appid=" + weatherApiKey;
@@ -254,7 +219,6 @@ public class HomeFragment extends Fragment implements LocationListener {
                                 default:
                                     uri = "@drawable/sunny_weather";
                             }
-
                             int imageResource = getResources().getIdentifier(uri, null, getActivity().getPackageName());
                             Drawable res = getResources().getDrawable(imageResource);
                             weatherImage.setImageDrawable(res);
@@ -269,20 +233,18 @@ public class HomeFragment extends Fragment implements LocationListener {
                         Log.d("MYERROR", error.toString());
                     }
                 });
-
         queue.add(jsonObjectRequest);
     }
 
     public void callCardsApi() {
         Utility util = new Utility();
-        String url = "https://android-newapp-aks05.wl.r.appspot.com/home_fragment/";
-
+        String url = "http://10.0.2.2:8080/home_fragment/";
         util.getHomeFragmentData(url, context, new Utility.CallBack() {
             @Override
             public void dataLoaded(List<Card> cards) {
                 cardList = cards;
                 recyclerView.setAdapter(new CardAdapter(cards, "MainActivity", "listLayout", null));
-                Utility.setHeadlinesProgressBar(view, false);
+                Utility.setProgressBar(view, false);
             }
 
             @Override

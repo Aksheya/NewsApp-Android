@@ -5,32 +5,31 @@ import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.text.format.DateUtils;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.share.model.ShareHashtag;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.squareup.picasso.Picasso;
-
-//import org.threeten.bp.Duration;
-//import org.threeten.bp.LocalDateTime;
-//import org.threeten.bp.ZoneId;
-//import org.threeten.bp.ZonedDateTime;
-//import org.threeten.bp.format.DateTimeFormatter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,10 +45,11 @@ import java.util.concurrent.TimeUnit;
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
     private Context context;
     private final List<Card> cardList;
-    String url;
-    String layoutName;
-    String activityName = "";
-    OnBookmarkClickListener onBookmarkClickListener;
+    private String url;
+    private String layoutName;
+    private String activityName = "";
+    private OnBookmarkClickListener onBookmarkClickListener;
+
 
     public CardAdapter(List<Card> cards, String activityName, String layoutName, OnBookmarkClickListener onBookmarkClickListener) {
         cardList = cards;
@@ -67,6 +67,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         else
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card, parent, false);
         context = parent.getContext();
+//        shareDialog = new ShareDialog(parent.);
         return new CardViewHolder(view);
     }
 
@@ -89,106 +90,43 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             e.printStackTrace();
         }
         Date current = new Date();
-        long seconds= TimeUnit.MILLISECONDS.toSeconds(current.getTime() - past.getTime());
-        long minutes=TimeUnit.MILLISECONDS.toMinutes(current.getTime() - past.getTime());
-        long hours=TimeUnit.MILLISECONDS.toHours(current.getTime() - past.getTime());
-        long days=TimeUnit.MILLISECONDS.toDays(current.getTime() - past.getTime());
-        String finalTime="";
-        if(seconds<60)
-        {
-            finalTime = seconds+"s ago";
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(current.getTime() - past.getTime());
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(current.getTime() - past.getTime());
+        long hours = TimeUnit.MILLISECONDS.toHours(current.getTime() - past.getTime());
+        long days = TimeUnit.MILLISECONDS.toDays(current.getTime() - past.getTime());
+        String finalTime = "";
+        if (seconds < 60) {
+            finalTime = seconds + "s ago";
+        } else if (minutes < 60) {
+            finalTime = minutes + "m ago";
+        } else if (hours < 24) {
+            finalTime = hours + "h ago";
+        } else {
+            finalTime = days + "d ago";
         }
-        else if(minutes<60)
-        {
-          finalTime = minutes+"m ago";
-        }
-        else if(hours<24)
-        {
-           finalTime = hours+"h ago";
-        }
-        else
-        {
-           finalTime = days+"d ago";
-        }
-
-        String gridTime="";
+        String gridTime = "";
         SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMM");
         gridTime = outputFormat.format(past);
-
-
-
-
-//        int index;
-//        String timeAgo="";
-//        try {
-//            long time = sdf.parse(formattedString).getTime();
-//            long now = System.currentTimeMillis();
-////            long diff = (now - time)/1000;
-////            if(diff<60){
-////                timeAgo = diff + "s ago";
-////            }
-////            else if(diff< 3600)
-////                timeAgo= diff/60 + "m ago";
-////            else
-////                timeAgo = diff/3600 + "h ago";
-//            String ago = (String) DateUtils.getRelativeTimeSpanString(time, now, DateUtils.SECOND_IN_MILLIS);
-//            Log.d("ago",ago);
-//            if(ago.contains("minute")){
-//                index  = ago.indexOf("minute");
-//                timeAgo = ago.substring(0,index-1) + "m ago";
-//            }
-//            else if(ago.contains("hour")){
-//                index  = ago.indexOf("hour");
-//                timeAgo = ago.substring(0,index-1) + "h ago";
-//            }
-//            else if(ago.contains("second")){
-//                index  = ago.indexOf("second");
-//                timeAgo = ago.substring(0,index-1) + "s ago";
-//            }
-//            else{
-//                timeAgo = ago;
-//            }
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        ZonedDateTime zdtnow = ZonedDateTime.now();
-//        simpledatetime
-//        DateUtils.getRelativeDateTimeString()
-
-
-
-//        Duration zonedDateTime = Duration.between(zdtnow, zdtold);
-//        long seconds = zonedDateTime.getSeconds();
-//        String hms = "";
-//        if (seconds < 60)
-//            hms = seconds + "s ago";
-//        else if (seconds < 3600)
-//            hms = (seconds / 60) + "m ago";
-//        else
-//            hms = (seconds / 3600) + "h ago";
-
-
         holder.cardTitle.setText(cardList.get(position).title);
         holder.cardSection.setText(cardList.get(position).section);
-        if(layoutName.equals("gridLayout"))
-           holder.cardTime.setText(gridTime);
+        if (layoutName.equals("gridLayout"))
+            holder.cardTime.setText(gridTime);
         else
             holder.cardTime.setText(finalTime);
         url = cardList.get(position).image;
         Picasso.with(context).load(url).resize(100, 100).into(holder.cardImage);
-        holder.cardImage.setOnClickListener( new View.OnClickListener(){
+        holder.cardImage.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                return;
             }
-        } );
+        });
         setImage(holder.cardBookmark, position);
     }
 
 
-    public void setImage(ImageView imageBookmark, int position) {
-        SharedPreferences pref = context.getSharedPreferences("BookmarkPref", 0); // 0 - for private mode
+    private void setImage(ImageView imageBookmark, int position) {
+        SharedPreferences pref = context.getSharedPreferences("BookmarkPref", 0);
         Card myCardObject = cardList.get(position);
         String objectstring = pref.getString(myCardObject.articleId, null);
         String uri;
@@ -208,16 +146,16 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         return cardList.size();
     }
 
-    public class CardViewHolder extends RecyclerView.ViewHolder {
+    class CardViewHolder extends RecyclerView.ViewHolder {
         View cardView;
         TextView cardTitle;
         TextView cardTime;
         TextView cardSection;
         ImageView cardImage;
         ImageView cardBookmark;
-        public static final String EXTRA_MESSAGE = "DetailedArticleId";
+        static final String EXTRA_MESSAGE = "DetailedArticleId";
 
-        public CardViewHolder(@NonNull View view) {
+        CardViewHolder(@NonNull View view) {
             super(view);
             cardView = view;
             cardTitle = cardView.findViewById(R.id.card_title);
@@ -246,10 +184,16 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                     TextView text = (TextView) dialog.findViewById(R.id.dialogText);
                     text.setText(cardTitle.getText());
                     ImageView image = (ImageView) dialog.findViewById(R.id.dialogImage);
+                    url = cardList.get(position).image;
                     Picasso.with(context).load(url).into(image);
+                    Window window = dialog.getWindow();
+                    int width = (int)(context.getResources().getDisplayMetrics().widthPixels*0.90);
+                    window.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
                     setImage((ImageView) dialog.findViewById(R.id.dialogBookmark), position);
-                    dialog.show();
+                    dialog.getWindow().setBackgroundDrawable(new
+                            ColorDrawable(Color.TRANSPARENT));
 
+                    dialog.show();
                     final ImageView dialogBookmarkImage = (ImageView) dialog.findViewById(R.id.dialogBookmark);
                     dialogBookmarkImage.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -259,43 +203,46 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                             Drawable res = context.getResources().getDrawable(imageResource);
                             dialogBookmarkImage.setImageDrawable(res);
                             cardBookmark.setImageDrawable(res);
-                            if(layoutName.equals("gridLayout")){
+                            if (layoutName.equals("gridLayout")) {
                                 onBookmarkClickListener.onBookmarkClick(getAdapterPosition());
                                 dialog.hide();
                             }
                         }
                     });
-                    ImageView dialogTwitter = (ImageView)dialog.findViewById(R.id.dialogTwitter);
+                    ImageView dialogTwitter = (ImageView) dialog.findViewById(R.id.dialogTwitter);
                     dialogTwitter.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String url = "https://twitter.com/intent/tweet?text=Check out this Link:&url=" + cardList.get(getAdapterPosition()).shareUrl + "&hashtags=CSCI571NewsSearch";
+                            String urli= "https://twitter.com/intent/tweet?text=Check out this Link:&url=" + cardList.get(getAdapterPosition()).shareUrl + "&hashtags=CSCI571NewsSearch";
                             Intent i = new Intent(Intent.ACTION_VIEW);
-                            i.setData(Uri.parse(url));
+                            i.setData(Uri.parse(urli));
                             context.startActivity(i);
                         }
                     });
-//                    Uri path = Uri.parse("android.resource://com.example.newsapp/" + R.drawable.baseline_bookmark_border_black_18dp);
-//                    bookmarkImage.setImageURI(path);
-//                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
-//                    bookmarkImage.setLayoutParams(layoutParams);
-//                    Uri twitterPath = Uri.parse("android.resource://com.example.newsapp/" + R.drawable.bluetwitter);
-//                    ImageView twitterImage = (ImageView)dialog.findViewById(R.id.dialogTwitter);
-//                    twitterImage.setImageURI(twitterPath);
-//                    LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(100, 100);
-//                    twitterImage.setLayoutParams(layoutParams1);
 
-//
-//                    Button declineButton = (Button) dialog.findViewById(R.id.declineButton);
-//                    // if decline button is clicked, close the custom dialog
-//                    declineButton.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            // Close dialog
-//                            dialog.dismiss();
-//                        }
-//                    });
-
+                    ImageView dialogFb = (ImageView) dialog.findViewById(R.id.dialogFb);
+                    dialogFb.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ShareLinkContent content = new ShareLinkContent.Builder()
+                                    .setQuote("Check out this Link:")
+                                    .setContentUrl(Uri.parse(cardList.get(getAdapterPosition()).shareUrl))
+                                    .setShareHashtag(new ShareHashtag.Builder()
+                                            .setHashtag("#CSCI571")
+                                            .build())
+                                    .build();
+//                            Class classn;
+//                            try {
+//                                classn = Class.forName("com.example.newsapp." + activityName);
+//                            } catch (ClassNotFoundException e) {
+//                                e.printStackTrace();
+//                            }
+                            if (ShareDialog.canShow(ShareLinkContent.class)) {
+                                    Activity activity = (Activity)context;
+                                    ShareDialog.show(activity, content);
+                            }
+                        }
+                    });
                     return true;
                 }
             });
@@ -306,19 +253,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                     int imageResource = context.getResources().getIdentifier(uri, null, context.getPackageName());
                     Drawable res = context.getResources().getDrawable(imageResource);
                     cardBookmark.setImageDrawable(res);
-                    if(layoutName.equals("gridLayout")){
+                    if (layoutName.equals("gridLayout")) {
                         onBookmarkClickListener.onBookmarkClick(getAdapterPosition());
                     }
                 }
             });
         }
-
-
-//        @Override
-//        public String toString() {
-//            return super.toString() + " '" + cardTitle.getText() + "'";
-//        }
-
-
     }
 }

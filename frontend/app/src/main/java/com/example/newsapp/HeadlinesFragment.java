@@ -20,7 +20,7 @@ public class HeadlinesFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.headlines_fragment, container, false);
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.headlines_tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(R.string.world_tab));
@@ -31,31 +31,22 @@ public class HeadlinesFragment extends Fragment {
         tabLayout.addTab(tabLayout.newTab().setText(R.string.science_tab));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         final ViewPager viewPager = view.findViewById(R.id.headlines_pager);
-
-
-//        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-
-
         viewPager.setAdapter(new TabAdapter(getFragmentManager(), tabLayout.getTabCount()));
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-//        tabLayout.setupWithViewPager(viewPager);
-//        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-
-
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-           public void onTabSelected(TabLayout.Tab tab) {
-               viewPager.setCurrentItem(tab.getPosition());
-           }
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
 
-           @Override
-           public void onTabUnselected(TabLayout.Tab tab) {
-           }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
 
-           @Override
-           public void onTabReselected(TabLayout.Tab tab) {
-           }
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
         });
 
         return view;

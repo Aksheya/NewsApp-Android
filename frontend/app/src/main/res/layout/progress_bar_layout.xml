@@ -9,12 +9,12 @@
 
     <ProgressBar
         android:id="@+id/pbHeaderProgress"
-        style="@style/Widget.AppCompat.Spinner"
+        style="?android:attr/progressBarStyleInverse"
         android:layout_width="wrap_content"
         android:layout_centerInParent="true"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:theme="@style/AppTheme.primaryDarkProgress">
+        android:progressTint="@color/colorPrimaryDark"
+        >
     </ProgressBar>
 
     <TextView
@@ -24,5 +24,5 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:paddingTop="10dp"
-        android:text="Fetching News" />
+        android:text="@string/news_fetching" />
 </RelativeLayout>

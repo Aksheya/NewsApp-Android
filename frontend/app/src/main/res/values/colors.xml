@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#5823AD</color>
+    <color name="colorPrimary">#7F0000</color>
+    <color name="colorPrimaryDark">#7F0000</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="grey">#a6a6a6</color>
     <color name="darkgrey">#737373</color>
     <color name="white">#ffffff</color>
-    <color name="bookmarkColor">#E05427</color>
+    <color name="bookmarkColor">#7F0000</color>
+    <color name="toolbar">#ffe6e6</color>
+    <color name="dialogbackground">#fff0f0</color>
+<!--    #E1DBF9-->
+<!--    #390E8A primarydark-->
+<!--    #fff0f0-->
 </resources>
